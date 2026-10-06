@@ -7,14 +7,9 @@ jobs:
       - name: probe
         run: |
           set +e
-          UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36"
-          for g in loto euromillions-my-million; do
-            echo "===== PAGE $g"
-            curl -sL -A "$UA" "https://www.fdj.fr/jeux-de-tirage/$g/historique" -o page_$g.html -w "%{http_code} %{size_download}\n"
-            grep -oE 'https://[^"\\ ]*service-draw-info[^"\\ ]*' page_$g.html | sort -u | head -20
-          done
-          for id in 1a2b3c4d-9876-4562-b3fc-2c963f66afp6; do
+          UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126 Safari/537.36"
+          for id in afa8 afa9 afb6 afc6 afd6 afe6; do
             echo "===== ZIP $id"
-            curl -sL -A "$UA" "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/$id" -o z.zip -w "%{http_code} %{size_download} %{content_type}\n"
-            unzip -l z.zip; unzip -p z.zip | head -3 | cut -c1-3000
+            curl -sL -A "$UA" "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66$id" -o z.zip -w "%{http_code} %{size_download}\n"
+            unzip -l z.zip | sed -n 4p; unzip -p z.zip | head -2 | cut -c1-2600
           done
