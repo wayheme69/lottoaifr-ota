@@ -3,6 +3,10 @@ name: Update Loto + EuroMillions results (FDJ)
 on:
   schedule:
     - cron: "17 */2 * * *"
+    # Soirs de tirage (lun, mar, mer, ven, sam) : passages rapprochés après 21 h (Paris)
+    - cron: "7,37 19-23 * * 1,2,3,5,6"
+    # Lendemain matin : rattrapage si l'archive FDJ a été publiée tard
+    - cron: "23 5,6,7 * * 0,2,3,4,6"
   workflow_dispatch:
 
 permissions:
